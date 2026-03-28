@@ -119,6 +119,27 @@ input[type=text]:focus,textarea:focus{border-color:var(--pink-d);box-shadow:0 0 
 @keyframes wigL{0%,100%{transform:rotate(-8deg);}50%{transform:rotate(8deg);}}
 @keyframes wigR{0%,100%{transform:rotate(8deg);}50%{transform:rotate(-8deg);}}
 
+/* TYPING SPEED */
+.speed-card{margin-top:18px;}
+.race-track{background:linear-gradient(to bottom,#e8f8ff,#d0f0ff);border-radius:20px;border:3px solid #b0e0f8;padding:14px 16px 10px;position:relative;overflow:hidden;}
+.race-track::before{content:'';position:absolute;bottom:0;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,#b0e0f8 0,#b0e0f8 12px,transparent 12px,transparent 24px);}
+.track-lane{height:44px;display:flex;align-items:center;position:relative;}
+.track-runner{font-size:1.8rem;position:absolute;transition:left .4s cubic-bezier(.34,1.56,.64,1);filter:drop-shadow(2px 2px 4px rgba(0,0,0,.15));}
+.track-flag{position:absolute;right:6px;font-size:1.5rem;}
+.speed-badge{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:12px;padding:10px 16px;border-radius:16px;transition:all .4s cubic-bezier(.175,.885,.32,1.275);}
+.speed-badge-icon{font-size:2.2rem;animation:badgeBounce 1s ease-in-out infinite;}
+@keyframes badgeBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+.speed-badge-text{font-family:'Fredoka One',cursive;font-size:1.5rem;letter-spacing:.5px;}
+.speed-badge-title{font-size:.85rem;font-weight:800;opacity:.7;display:block;margin-top:2px;}
+.stars-row{display:flex;gap:4px;justify-content:center;margin-top:8px;font-size:1.6rem;}
+.star-item{transition:all .3s;display:inline-block;}
+.star-lit{animation:starPop .4s cubic-bezier(.68,-.55,.27,1.55) both;}
+@keyframes starPop{0%{transform:scale(0) rotate(-30deg);}70%{transform:scale(1.3);}100%{transform:scale(1);}}
+
+/* result badge */
+.res-speed-badge{margin:14px auto 0;display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:999px;font-family:'Fredoka One',cursive;font-size:1.3rem;animation:badgePop .6s .8s cubic-bezier(.68,-.55,.27,1.55) both;opacity:0;}
+@keyframes badgePop{from{opacity:0;transform:scale(0);}60%{transform:scale(1.15);}to{opacity:1;transform:scale(1);}}
+
 /* PRINT */
 @media print{
   body{background:#fff;}
@@ -166,6 +187,31 @@ input[type=text]:focus,textarea:focus{border-color:var(--pink-d);box-shadow:0 0 
     </div>
   </div>
 
+  <!-- SPEED CARD -->
+  <div class="card speed-card" style="animation-delay:.15s">
+    <span class="card-label">⚡ Your Typing Superpower!</span>
+    <div class="race-track">
+      <div class="track-lane">
+        <span class="track-runner" id="track-runner" style="left:0%">🐢</span>
+        <span class="track-flag">🏁</span>
+      </div>
+    </div>
+    <div class="speed-badge" id="speed-badge" style="background:#f5f5f5;">
+      <span class="speed-badge-icon" id="speed-icon">😴</span>
+      <div>
+        <span class="speed-badge-text" id="speed-title">Waiting for you...</span>
+        <span class="speed-badge-title" id="speed-sub">Start typing your name!</span>
+      </div>
+    </div>
+    <div class="stars-row" id="stars-row">
+      <span class="star-item">⭐</span>
+      <span class="star-item">⭐</span>
+      <span class="star-item">⭐</span>
+      <span class="star-item">⭐</span>
+      <span class="star-item">⭐</span>
+    </div>
+  </div>
+
   <!-- AVATAR CARD -->
   <div class="card" style="animation-delay:.2s">
     <span class="card-label">🎭 Pick your character!</span>
@@ -206,6 +252,7 @@ input[type=text]:focus,textarea:focus{border-color:var(--pink-d);box-shadow:0 0 
       <div class="result-avatar" id="res-avatar">🦄</div>
       <div class="result-name" id="res-name"></div>
       <div class="result-about" id="res-about"></div>
+      <div id="res-speed-wrap"></div>
       <div class="result-decorations">🌟 🎉 🎈 🌟</div>
       <div class="result-actions">
         <button class="action-btn print-btn" onclick="window.print()">🖨️ Print My Card</button>
@@ -403,13 +450,79 @@ nameInput.addEventListener('input', e => {
   charCount.textContent = val.length + ' / ' + MAX;
   caterpillar.style.marginRight = Math.max(0, 98 - pct) + '%';
   if (e.data) {
+    keyTimes.push(Date.now());
     playDing();
     const r = nameInput.getBoundingClientRect();
     burst(r.left + r.width / 2, r.top, 8);
+    updateSpeedUI(calcLPS());
   }
+  if (val.length === 0) { lastTier = null; updateSpeedUI(0); }
 });
 
-// ---- AVATAR ----
+// ---- TYPING SPEED ----
+const TIERS = [
+  { minLPS: 0,   icon:'😴', title:'Just Warming Up!',   sub:'Keep going, you can do it!',   color:'#f0f0f0', textColor:'#aaa',   stars:1, runner:'🐢', runnerPct: 5  },
+  { minLPS: 0.8, icon:'🐌', title:'Careful Explorer',   sub:'Nice and steady wins the race!',color:'#E8F8E8', textColor:'#6abf6a',stars:2, runner:'🐌', runnerPct: 20 },
+  { minLPS: 1.8, icon:'🐇', title:'Speedy Bunny!',      sub:'Hop hop hop, so fast!',         color:'#FFF8E0', textColor:'#e6a800',stars:3, runner:'🐇', runnerPct: 45 },
+  { minLPS: 3.0, icon:'🚀', title:'Rocket Fingers!',    sub:'Woooosh! You\'re flying!',      color:'#E8F0FF', textColor:'#5577dd',stars:4, runner:'🚀', runnerPct: 68 },
+  { minLPS: 4.5, icon:'⚡', title:'Lightning Typist!!', sub:'You\'re a keyboard LEGEND! 🏆', color:'#FFF0FF', textColor:'#cc44cc',stars:5, runner:'⚡', runnerPct: 92 },
+];
+
+let keyTimes = [];
+let lastTier = null;
+
+function calcLPS() {
+  const now = Date.now();
+  keyTimes = keyTimes.filter(t => now - t < 3000);
+  if (keyTimes.length < 2) return 0;
+  const span = (keyTimes[keyTimes.length-1] - keyTimes[0]) / 1000;
+  return span > 0 ? (keyTimes.length - 1) / span : 0;
+}
+
+function getTier(lps) {
+  let t = TIERS[0];
+  for (const tier of TIERS) { if (lps >= tier.minLPS) t = tier; }
+  return t;
+}
+
+function updateSpeedUI(lps) {
+  const tier = getTier(lps);
+  if (tier === lastTier) return;
+  lastTier = tier;
+
+  const runner = document.getElementById('track-runner');
+  runner.textContent = tier.runner;
+  runner.style.left = tier.runnerPct + '%';
+
+  const badge = document.getElementById('speed-badge');
+  badge.style.background = tier.color;
+  document.getElementById('speed-icon').textContent = tier.icon;
+  document.getElementById('speed-title').textContent = tier.title;
+  document.getElementById('speed-title').style.color = tier.textColor;
+  document.getElementById('speed-sub').textContent = tier.sub;
+
+  const starsRow = document.getElementById('stars-row');
+  starsRow.innerHTML = '';
+  for (let i = 0; i < 5; i++) {
+    const s = document.createElement('span');
+    s.className = 'star-item';
+    s.textContent = i < tier.stars ? '⭐' : '✩';
+    s.style.opacity = i < tier.stars ? '1' : '0.25';
+    if (i < tier.stars) {
+      s.classList.add('star-lit');
+      s.style.animationDelay = (i * 0.08) + 's';
+    }
+    starsRow.appendChild(s);
+  }
+
+  if (tier.stars > (lastTier?.stars || 0)) {
+    playTone(880, 'triangle', .2, .1);
+    const r = document.getElementById('speed-badge').getBoundingClientRect();
+    burst(r.left + r.width/2, r.top + r.height/2, 16);
+  }
+}
+
+
 let selectedAvatar = '🦄';
 function pickAvatar(btn) {
   document.querySelectorAll('.av-btn').forEach(b => b.classList.remove('selected'));
@@ -443,9 +556,12 @@ function createCard() {
     return;
   }
   const about = document.getElementById('about-input').value.trim();
+  const finalTier = lastTier || TIERS[0];
   document.getElementById('res-avatar').textContent = selectedAvatar;
   document.getElementById('res-name').textContent = name;
   document.getElementById('res-about').textContent = about || 'Is totally wonderful! 🌟';
+  const speedWrap = document.getElementById('res-speed-wrap');
+  speedWrap.innerHTML = `<div class="res-speed-badge" style="background:${finalTier.color};color:${finalTier.textColor};">${finalTier.icon} ${finalTier.title}</div>`;
   const r = document.getElementById('result');
   r.style.display = 'block';
   r.style.animation = 'none';
@@ -456,7 +572,6 @@ function createCard() {
   setTimeout(() => r.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
 }
 
-// ---- TRY AGAIN ----
 function tryAgain() {
   nameInput.value = '';
   namePrev.innerHTML = '<span style="color:#ddd;font-family:\'Fredoka One\',cursive;font-size:2rem;">Start typing...</span>';
@@ -467,6 +582,11 @@ function tryAgain() {
   document.querySelectorAll('.av-btn').forEach(b => b.classList.remove('selected'));
   selectedAvatar = '🦄';
   document.getElementById('result').style.display = 'none';
+  keyTimes = [];
+  lastTier = null;
+  updateSpeedUI(0);
+  document.getElementById('track-runner').style.left = '0%';
+  document.getElementById('track-runner').textContent = '🐢';
   window.scrollTo({ top: 0, behavior: 'smooth' });
   playPop();
 }
