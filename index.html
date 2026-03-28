@@ -6,98 +6,82 @@
 <title>My Magical Storybook ✨</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --pink: #FF9AA2; --pink-d: #e07880;
-  --blue: #B5EAD7; --blue-d: #7dd4b5;
-  --yellow: #FFE066; --yellow-d: #e6c200;
-  --purple: #C7CEEA; --purple-d: #9aa3d4;
-  --peach: #FFDAC1; --peach-d: #f0b090;
-  --sky: #87CEEB; --green: #98FB98;
-  --text: #5a4a6a;
-  --white: #fff;
+:root{
+  --pink:#FF9AA2;--pink-d:#e07880;--blue:#B5EAD7;--blue-d:#7dd4b5;
+  --yellow:#FFE066;--yellow-d:#e6c200;--purple:#C7CEEA;--purple-d:#9aa3d4;
+  --peach:#FFDAC1;--text:#5a4a6a;--white:#fff;
 }
 *{box-sizing:border-box;margin:0;padding:0;cursor:none!important;}
 body{font-family:'Nunito',sans-serif;background:linear-gradient(175deg,#87CEEB 0%,#b8e8f8 40%,#d4f5e0 70%,#98FB98 100%);min-height:100vh;overflow-x:hidden;color:var(--text);position:relative;}
 
-/* CURSOR */
-#cur{position:fixed;width:32px;height:32px;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform .08s;font-size:24px;line-height:1;}
+#cur{position:fixed;width:32px;height:32px;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);font-size:24px;line-height:1;}
 .trail{position:fixed;pointer-events:none;z-index:99998;border-radius:50%;transform:translate(-50%,-50%);animation:trailFade .8s forwards;}
 @keyframes trailFade{to{opacity:0;transform:translate(-50%,-50%) scale(0);}}
 
-/* BG DECOR */
 .sun{position:fixed;top:15px;right:15px;font-size:60px;z-index:2;animation:sunPulse 3s ease-in-out infinite;}
-@keyframes sunPulse{0%,100%{transform:scale(1) rotate(0deg);}50%{transform:scale(1.08) rotate(10deg);}}
-.cloud{position:fixed;font-size:48px;z-index:1;animation:cloudDrift linear infinite;opacity:.85;}
+@keyframes sunPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08) rotate(10deg);}}
+.cloud{position:fixed;z-index:1;animation:cloudDrift linear infinite;opacity:.85;}
 @keyframes cloudDrift{from{transform:translateX(-120px);}to{transform:translateX(110vw);}}
 
-/* BUBBLES */
-.bubble{position:fixed;border-radius:50%;border:3px solid rgba(255,255,255,.7);background:rgba(255,255,255,.25);z-index:3;display:flex;align-items:center;justify-content:center;font-size:1.4rem;animation:bubbleRise linear forwards;backdrop-filter:blur(2px);}
+.bubble{position:fixed;border-radius:50%;border:3px solid rgba(255,255,255,.7);background:rgba(255,255,255,.25);z-index:3;display:flex;align-items:center;justify-content:center;animation:bubbleRise linear forwards;backdrop-filter:blur(2px);}
 @keyframes bubbleRise{0%{transform:translateY(0) scale(.8);opacity:0;}8%{opacity:1;}88%{opacity:1;}100%{transform:translateY(-110vh) scale(1.1);opacity:0;}}
 .pop-word{position:fixed;font-family:'Fredoka One',cursive;font-size:1.8rem;pointer-events:none;z-index:9999;animation:wordPop 1.2s forwards;}
 @keyframes wordPop{0%{opacity:1;transform:translate(-50%,-50%) scale(.5);}40%{transform:translate(-50%,-70%) scale(1.2);}100%{opacity:0;transform:translate(-50%,-120%) scale(.8);}}
 
-/* CONFETTI CANVAS */
 #cnv{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:50;}
 
-/* MAIN LAYOUT */
-.wrap{max-width:780px;margin:0 auto;padding:20px 16px 60px;position:relative;z-index:10;}
+.wrap{max-width:800px;margin:0 auto;padding:20px 16px 80px;position:relative;z-index:10;}
 h1{font-family:'Fredoka One',cursive;font-size:clamp(2rem,6vw,3.8rem);color:#FF6F61;text-shadow:3px 3px 0 #fff,6px 6px 0 rgba(0,0,0,.08);text-align:center;margin-bottom:6px;}
 .subtitle{text-align:center;font-size:1.1rem;color:#888;margin-bottom:28px;font-weight:700;}
-
-/* LETTER BOUNCE */
 h1 span{display:inline-block;animation:letterBounce .5s cubic-bezier(.68,-.55,.27,1.55) both;}
 @keyframes letterBounce{from{opacity:0;transform:translateY(-40px) scale(.5);}to{opacity:1;transform:none;}}
 
-/* CARDS */
-.card{background:rgba(255,255,255,.92);border-radius:28px;padding:24px 28px;margin-bottom:22px;border:4px solid rgba(255,255,255,.9);box-shadow:0 8px 24px rgba(0,0,0,.08);animation:cardSlide .6s cubic-bezier(.175,.885,.32,1.275) both;}
+.card{background:rgba(255,255,255,.93);border-radius:28px;padding:24px 28px;margin-bottom:22px;border:4px solid rgba(255,255,255,.9);box-shadow:0 8px 24px rgba(0,0,0,.08);animation:cardSlide .6s cubic-bezier(.175,.885,.32,1.275) both;}
 @keyframes cardSlide{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:none;}}
 .card-label{font-size:1.2rem;font-weight:800;color:#aaa;margin-bottom:12px;display:block;letter-spacing:.5px;}
 
-/* NAME PREVIEW */
 .name-preview{min-height:56px;font-family:'Fredoka One',cursive;font-size:clamp(2rem,7vw,3rem);display:flex;justify-content:center;flex-wrap:wrap;gap:4px;margin-bottom:12px;align-items:center;}
 .char-pop{display:inline-block;animation:charPop .35s cubic-bezier(.175,.885,.32,1.275) both;opacity:0;}
 @keyframes charPop{from{opacity:0;transform:scale(0) rotate(-20deg);}60%{transform:scale(1.3) rotate(5deg);}to{opacity:1;transform:scale(1) rotate(0);}}
 
-/* PROGRESS BAR */
-.progress-wrap{margin:14px 0 4px;position:relative;}
+.progress-wrap{margin:14px 0 4px;}
 .progress-label{font-size:.85rem;font-weight:700;color:#bbb;margin-bottom:5px;display:flex;justify-content:space-between;}
 .progress-track{height:18px;background:#f0f0f0;border-radius:999px;overflow:hidden;border:2px solid #e0e0e0;}
 .progress-fill{height:100%;border-radius:999px;transition:width .3s ease;background:linear-gradient(90deg,#FFB7B2,#FF9AA2,#FFDAC1,#FFE066);background-size:200% 100%;animation:shimmerBar 2s linear infinite;}
 @keyframes shimmerBar{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
-.caterpillar{font-size:1.1rem;transition:margin-left .3s ease;}
+.caterpillar{font-size:1.1rem;transition:margin-right .3s ease;}
 
-/* INPUTS */
 input[type=text],textarea{width:100%;padding:13px 18px;font-size:1.25rem;font-family:'Nunito',sans-serif;border:3px solid var(--purple);border-radius:18px;outline:none;background:#F8F4FF;transition:all .25s;color:var(--text);resize:none;}
 input[type=text]:focus,textarea:focus{border-color:var(--pink-d);box-shadow:0 0 0 4px rgba(255,154,162,.2);background:#fff;}
 
-/* AVATAR PICKER */
+/* CARTOON AVATARS */
 .section-title{font-size:1rem;font-weight:800;color:#bbb;margin:16px 0 10px;}
-.avatar-grid{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
-.av-btn{font-size:2rem;background:#fff;border:3px solid #eee;border-radius:50%;width:56px;height:56px;display:flex;align-items:center;justify-content:center;transition:all .2s;position:relative;}
-.av-btn:hover{transform:scale(1.25) rotate(8deg);border-color:var(--yellow-d);background:var(--yellow);}
-.av-btn.selected{border-color:var(--pink-d);background:var(--pink);transform:scale(1.15);box-shadow:0 4px 12px rgba(255,111,97,.3);}
-.av-btn.selected::after{content:'✓';position:absolute;bottom:-6px;right:-6px;background:var(--pink-d);color:#fff;border-radius:50%;width:20px;height:20px;font-size:.75rem;display:flex;align-items:center;justify-content:center;font-weight:800;}
+.avatar-grid{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.av-btn{background:#fff;border:3px solid #eee;border-radius:22px;width:82px;height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;transition:all .22s cubic-bezier(.34,1.56,.64,1);position:relative;padding:8px 4px 5px;}
+.av-btn:hover{transform:scale(1.15) translateY(-4px);border-color:var(--yellow-d);background:#fffbe6;box-shadow:0 8px 20px rgba(0,0,0,.12);}
+.av-btn.selected{border-color:var(--pink-d);background:#fff5f6;transform:scale(1.12);box-shadow:0 6px 18px rgba(255,111,97,.3);}
+.av-btn.selected::after{content:'✓';position:absolute;top:-9px;right:-9px;background:var(--pink-d);color:#fff;border-radius:50%;width:22px;height:22px;font-size:.78rem;display:flex;align-items:center;justify-content:center;font-weight:900;box-shadow:0 2px 6px rgba(0,0,0,.15);}
+.av-btn svg{width:54px;height:54px;overflow:visible;}
+.av-name{font-family:'Fredoka One',cursive;font-size:.72rem;color:#bbb;letter-spacing:.2px;line-height:1;}
+.av-btn.selected .av-name,.av-btn:hover .av-name{color:var(--pink-d);}
 
-/* EMOJI BUTTONS */
 .emoji-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px;}
 .em-btn{font-size:1.8rem;background:#fff;border:3px solid #eee;border-radius:16px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
 .em-btn:hover{transform:scale(1.2) rotate(10deg);border-color:var(--blue-d);background:var(--blue);}
 .em-btn:active{transform:scale(.9);}
 
-/* MAGIC BUTTON */
 .magic-btn{display:block;margin:8px auto 0;background:linear-gradient(to bottom,#FF9AA2,#FF6F61);color:#fff;font-family:'Fredoka One',cursive;font-size:1.9rem;padding:16px 44px;border:none;border-radius:999px;box-shadow:0 10px 0 #c0504a,0 12px 24px rgba(0,0,0,.15);transition:all .1s;position:relative;overflow:hidden;letter-spacing:.5px;}
 .magic-btn:hover{transform:translateY(3px);box-shadow:0 7px 0 #c0504a;}
 .magic-btn:active{transform:translateY(10px);box-shadow:0 0 0 #c0504a;}
 .magic-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.3) 50%,transparent 70%);animation:btnShine 2.5s linear infinite;}
 @keyframes btnShine{from{transform:translateX(-100%);}to{transform:translateX(200%);}}
 
-/* RESULT CARD */
-#result{display:none;margin-top:36px;animation:zoomIn .7s cubic-bezier(.175,.885,.32,1.275) both;}
-@keyframes zoomIn{from{opacity:0;transform:scale(.5) rotate(-5deg);}60%{transform:scale(1.05) rotate(2deg);}to{opacity:1;transform:none;}}
+#result{display:none;margin-top:36px;}
 .result-inner{background:#fff;border:6px dashed var(--blue-d);border-radius:24px;padding:36px 28px;position:relative;overflow:hidden;text-align:center;}
 .result-inner::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(255,183,178,.15) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(181,234,215,.15) 0%,transparent 50%);pointer-events:none;}
-.result-avatar{font-size:5rem;margin-bottom:10px;animation:avatarBounce 1s .3s cubic-bezier(.68,-.55,.27,1.55) both;opacity:0;}
-@keyframes avatarBounce{from{opacity:0;transform:scale(0);}60%{transform:scale(1.3);}to{opacity:1;transform:scale(1);}}
+.result-avatar-wrap{margin-bottom:10px;animation:avatarBounce 1s .3s cubic-bezier(.68,-.55,.27,1.55) both;opacity:0;display:inline-block;}
+.result-avatar-wrap svg{width:100px;height:100px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.15));}
+@keyframes avatarBounce{from{opacity:0;transform:scale(0);}60%{transform:scale(1.25);}to{opacity:1;transform:scale(1);}}
 .result-name{font-family:'Fredoka One',cursive;font-size:clamp(2.2rem,8vw,3.8rem);background:linear-gradient(90deg,#FF9AA2,#FFDAC1,#FFE066,#B5EAD7,#C7CEEA,#FF9AA2);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:nameShimmer 3s linear infinite;line-height:1.1;}
 @keyframes nameShimmer{0%{background-position:0% 50%;}100%{background-position:300% 50%;}}
 .result-about{font-size:1.5rem;color:#777;margin-top:14px;font-weight:700;}
@@ -111,7 +95,6 @@ input[type=text]:focus,textarea:focus{border-color:var(--pink-d);box-shadow:0 0 
 .print-btn:hover{box-shadow:0 3px 0 var(--purple-d);}
 .retry-btn:hover{box-shadow:0 3px 0 var(--blue-d);}
 
-/* CORNER ANIMALS */
 .animal{position:fixed;font-size:3.5rem;z-index:6;transition:transform .3s;}
 .animal:hover{transform:scale(1.3) rotate(15deg)!important;}
 .a1{bottom:24px;left:16px;animation:wigL 2.5s ease-in-out infinite;}
@@ -119,28 +102,24 @@ input[type=text]:focus,textarea:focus{border-color:var(--pink-d);box-shadow:0 0 
 @keyframes wigL{0%,100%{transform:rotate(-8deg);}50%{transform:rotate(8deg);}}
 @keyframes wigR{0%,100%{transform:rotate(8deg);}50%{transform:rotate(-8deg);}}
 
-/* TYPING SPEED */
-.speed-card{margin-top:18px;}
+/* SPEED */
 .race-track{background:linear-gradient(to bottom,#e8f8ff,#d0f0ff);border-radius:20px;border:3px solid #b0e0f8;padding:14px 16px 10px;position:relative;overflow:hidden;}
 .race-track::before{content:'';position:absolute;bottom:0;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,#b0e0f8 0,#b0e0f8 12px,transparent 12px,transparent 24px);}
 .track-lane{height:44px;display:flex;align-items:center;position:relative;}
-.track-runner{font-size:1.8rem;position:absolute;transition:left .4s cubic-bezier(.34,1.56,.64,1);filter:drop-shadow(2px 2px 4px rgba(0,0,0,.15));}
+.track-runner{font-size:1.8rem;position:absolute;transition:left .4s cubic-bezier(.34,1.56,.64,1);}
 .track-flag{position:absolute;right:6px;font-size:1.5rem;}
 .speed-badge{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:12px;padding:10px 16px;border-radius:16px;transition:all .4s cubic-bezier(.175,.885,.32,1.275);}
 .speed-badge-icon{font-size:2.2rem;animation:badgeBounce 1s ease-in-out infinite;}
 @keyframes badgeBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
 .speed-badge-text{font-family:'Fredoka One',cursive;font-size:1.5rem;letter-spacing:.5px;}
-.speed-badge-title{font-size:.85rem;font-weight:800;opacity:.7;display:block;margin-top:2px;}
+.speed-badge-sub{font-size:.85rem;font-weight:800;opacity:.7;display:block;margin-top:2px;}
 .stars-row{display:flex;gap:4px;justify-content:center;margin-top:8px;font-size:1.6rem;}
-.star-item{transition:all .3s;display:inline-block;}
+.star-item{display:inline-block;transition:all .3s;}
 .star-lit{animation:starPop .4s cubic-bezier(.68,-.55,.27,1.55) both;}
 @keyframes starPop{0%{transform:scale(0) rotate(-30deg);}70%{transform:scale(1.3);}100%{transform:scale(1);}}
-
-/* result badge */
 .res-speed-badge{margin:14px auto 0;display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:999px;font-family:'Fredoka One',cursive;font-size:1.3rem;animation:badgePop .6s .8s cubic-bezier(.68,-.55,.27,1.55) both;opacity:0;}
 @keyframes badgePop{from{opacity:0;transform:scale(0);}60%{transform:scale(1.15);}to{opacity:1;transform:scale(1);}}
 
-/* PRINT */
 @media print{
   body{background:#fff;}
   .wrap>*:not(#result){display:none!important;}
@@ -149,8 +128,10 @@ input[type=text]:focus,textarea:focus{border-color:var(--pink-d);box-shadow:0 0 
   .action-btn,.animal,.sun,.cloud,.bubble{display:none!important;}
 }
 @media(max-width:520px){
-  .card{padding:18px 16px;}
+  .card{padding:18px 14px;}
   .magic-btn{font-size:1.5rem;padding:14px 28px;}
+  .av-btn{width:70px;height:82px;}
+  .av-btn svg{width:46px;height:46px;}
 }
 </style>
 </head>
@@ -163,8 +144,149 @@ input[type=text]:focus,textarea:focus{border-color:var(--pink-d);box-shadow:0 0 
 <div class="animal a1">🐰</div>
 <div class="animal a2">🐱</div>
 
-<div class="wrap">
+<!-- hidden SVG defs for cartoon characters -->
+<svg width="0" height="0" style="position:absolute">
+<defs>
 
+<!-- KITTY (orange tabby) -->
+<g id="ch-cat">
+  <circle cx="26" cy="30" r="19" fill="#FFD180"/>
+  <polygon points="9,16 4,2 17,11" fill="#FFD180"/><polygon points="10,15 6,3 16,11" fill="#FFAB91"/>
+  <polygon points="43,16 48,2 35,11" fill="#FFD180"/><polygon points="42,15 46,3 36,11" fill="#FFAB91"/>
+  <ellipse cx="19" cy="27" rx="5.5" ry="6.5" fill="#fff"/>
+  <circle cx="19" cy="28" r="4" fill="#42A5F5"/><circle cx="19" cy="28" r="2.2" fill="#1a3a6e"/><circle cx="20.2" cy="26.8" r="1.1" fill="#fff"/>
+  <ellipse cx="33" cy="27" rx="5.5" ry="6.5" fill="#fff"/>
+  <circle cx="33" cy="28" r="4" fill="#42A5F5"/><circle cx="33" cy="28" r="2.2" fill="#1a3a6e"/><circle cx="34.2" cy="26.8" r="1.1" fill="#fff"/>
+  <ellipse cx="26" cy="35" rx="4.5" ry="3.5" fill="#FFAB91"/>
+  <path d="M22 37.5 Q26 41 30 37.5" stroke="#c07060" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <line x1="6" y1="33" x2="19" y2="35" stroke="#ccc" stroke-width="1.2"/><line x1="6" y1="36.5" x2="19" y2="36.5" stroke="#ccc" stroke-width="1.2"/>
+  <line x1="46" y1="33" x2="33" y2="35" stroke="#ccc" stroke-width="1.2"/><line x1="46" y1="36.5" x2="33" y2="36.5" stroke="#ccc" stroke-width="1.2"/>
+  <path d="M14 22 Q19 19.5 23 21.5" stroke="#e8a060" stroke-width="1.4" fill="none"/>
+  <path d="M29 21.5 Q33 19.5 38 22" stroke="#e8a060" stroke-width="1.4" fill="none"/>
+</g>
+
+<!-- BUDDY (golden puppy) -->
+<g id="ch-dog">
+  <ellipse cx="10" cy="30" rx="7.5" ry="13" fill="#FFB74D" transform="rotate(-12 10 30)"/>
+  <ellipse cx="42" cy="30" rx="7.5" ry="13" fill="#FFB74D" transform="rotate(12 42 30)"/>
+  <circle cx="26" cy="29" r="19" fill="#FFCC80"/>
+  <ellipse cx="26" cy="36" rx="9" ry="7" fill="#FFAB76"/>
+  <ellipse cx="26" cy="32.5" rx="4.5" ry="3" fill="#333"/>
+  <circle cx="19" cy="25" r="5.5" fill="#fff"/><circle cx="19" cy="26" r="3.5" fill="#5D4037"/><circle cx="20.2" cy="24.8" r="1.3" fill="#fff"/>
+  <circle cx="33" cy="25" r="5.5" fill="#fff"/><circle cx="33" cy="26" r="3.5" fill="#5D4037"/><circle cx="34.2" cy="24.8" r="1.3" fill="#fff"/>
+  <path d="M21 39 Q26 43.5 31 39" stroke="#c07050" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M14 20 Q19 18 23 20" stroke="#d49050" stroke-width="1.5" fill="none"/>
+  <path d="M29 20 Q33 18 38 20" stroke="#d49050" stroke-width="1.5" fill="none"/>
+</g>
+
+<!-- BUN BUN (pink bunny) -->
+<g id="ch-bunny">
+  <ellipse cx="16" cy="13" rx="5.5" ry="14" fill="#FFB7C5"/>
+  <ellipse cx="16" cy="13" rx="3.2" ry="10.5" fill="#FF8FAB"/>
+  <ellipse cx="36" cy="13" rx="5.5" ry="14" fill="#FFB7C5"/>
+  <ellipse cx="36" cy="13" rx="3.2" ry="10.5" fill="#FF8FAB"/>
+  <circle cx="26" cy="32" r="18" fill="#FFD6E0"/>
+  <circle cx="18.5" cy="28" r="5.5" fill="#fff"/><circle cx="18.5" cy="29" r="3.8" fill="#880E4F"/><circle cx="19.8" cy="27.8" r="1.3" fill="#fff"/>
+  <circle cx="33.5" cy="28" r="5.5" fill="#fff"/><circle cx="33.5" cy="29" r="3.8" fill="#880E4F"/><circle cx="34.8" cy="27.8" r="1.3" fill="#fff"/>
+  <ellipse cx="26" cy="35" rx="3.5" ry="2.5" fill="#E91E8C"/>
+  <path d="M22 37 Q26 40.5 30 37" stroke="#b01060" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <circle cx="13" cy="35" r="4.5" fill="#FF8FAB" opacity=".4"/>
+  <circle cx="39" cy="35" r="4.5" fill="#FF8FAB" opacity=".4"/>
+</g>
+
+<!-- HOPPY (green frog) -->
+<g id="ch-frog">
+  <circle cx="15.5" cy="16" r="9" fill="#66BB6A"/>
+  <circle cx="36.5" cy="16" r="9" fill="#66BB6A"/>
+  <circle cx="15.5" cy="16" r="6" fill="#fff"/><circle cx="15.5" cy="17" r="4" fill="#1B5E20"/><circle cx="16.8" cy="15.8" r="1.5" fill="#fff"/>
+  <circle cx="36.5" cy="16" r="6" fill="#fff"/><circle cx="36.5" cy="17" r="4" fill="#1B5E20"/><circle cx="37.8" cy="15.8" r="1.5" fill="#fff"/>
+  <ellipse cx="26" cy="34" rx="19" ry="15" fill="#81C784"/>
+  <path d="M15 37 Q26 46 37 37" stroke="#388E3C" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <circle cx="22" cy="32" r="2" fill="#388E3C"/>
+  <circle cx="30" cy="32" r="2" fill="#388E3C"/>
+  <circle cx="12" cy="38" r="4.5" fill="#A5D6A7" opacity=".55"/>
+  <circle cx="40" cy="38" r="4.5" fill="#A5D6A7" opacity=".55"/>
+</g>
+
+<!-- TEDDY (brown bear) -->
+<g id="ch-bear">
+  <circle cx="11" cy="14" r="9" fill="#A1887F"/><circle cx="11" cy="14" r="5.5" fill="#BCAAA4"/>
+  <circle cx="41" cy="14" r="9" fill="#A1887F"/><circle cx="41" cy="14" r="5.5" fill="#BCAAA4"/>
+  <circle cx="26" cy="31" r="19" fill="#A1887F"/>
+  <ellipse cx="26" cy="37" rx="9.5" ry="7.5" fill="#BCAAA4"/>
+  <ellipse cx="26" cy="33" rx="4.5" ry="3.5" fill="#4E342E"/>
+  <circle cx="18.5" cy="26" r="5" fill="#fff"/><circle cx="18.5" cy="27" r="3.5" fill="#3E2723"/><circle cx="19.7" cy="25.8" r="1.3" fill="#fff"/>
+  <circle cx="33.5" cy="26" r="5" fill="#fff"/><circle cx="33.5" cy="27" r="3.5" fill="#3E2723"/><circle cx="34.7" cy="25.8" r="1.3" fill="#fff"/>
+  <path d="M21 40 Q26 44 31 40" stroke="#6D4C41" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+</g>
+
+<!-- FOXY (red fox) -->
+<g id="ch-fox">
+  <polygon points="9,21 3,2 19,14" fill="#EF6C00"/><polygon points="10,20 5,4 18,14" fill="#FFCCBC"/>
+  <polygon points="43,21 49,2 33,14" fill="#EF6C00"/><polygon points="42,20 47,4 34,14" fill="#FFCCBC"/>
+  <circle cx="26" cy="30" r="19" fill="#FF7043"/>
+  <ellipse cx="26" cy="35.5" rx="12" ry="9.5" fill="#FFF3E0"/>
+  <circle cx="18.5" cy="25" r="5.5" fill="#fff"/><circle cx="18.5" cy="26" r="4" fill="#283593"/><circle cx="19.8" cy="24.8" r="1.4" fill="#fff"/>
+  <circle cx="33.5" cy="25" r="5.5" fill="#fff"/><circle cx="33.5" cy="26" r="4" fill="#283593"/><circle cx="34.8" cy="24.8" r="1.4" fill="#fff"/>
+  <ellipse cx="26" cy="34" rx="4" ry="3" fill="#222"/>
+  <path d="M21.5 37 Q26 41 30.5 37" stroke="#c04020" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <circle cx="12" cy="34" r="4.5" fill="#FF8A65" opacity=".4"/>
+  <circle cx="40" cy="34" r="4.5" fill="#FF8A65" opacity=".4"/>
+</g>
+
+<!-- PANDA -->
+<g id="ch-panda">
+  <circle cx="10" cy="14" r="9" fill="#333"/>
+  <circle cx="42" cy="14" r="9" fill="#333"/>
+  <circle cx="26" cy="31" r="19" fill="#f7f7f7"/>
+  <ellipse cx="18" cy="27" rx="7.5" ry="6.5" fill="#2a2a2a"/>
+  <ellipse cx="34" cy="27" rx="7.5" ry="6.5" fill="#2a2a2a"/>
+  <circle cx="18" cy="28" r="4.5" fill="#fff"/><circle cx="18" cy="29" r="3" fill="#111"/><circle cx="19.2" cy="27.8" r="1.2" fill="#fff"/>
+  <circle cx="34" cy="28" r="4.5" fill="#fff"/><circle cx="34" cy="29" r="3" fill="#111"/><circle cx="35.2" cy="27.8" r="1.2" fill="#fff"/>
+  <ellipse cx="26" cy="36" rx="7.5" ry="5.5" fill="#eee"/>
+  <ellipse cx="26" cy="33.5" rx="3.5" ry="2.5" fill="#555"/>
+  <path d="M21 38.5 Q26 42.5 31 38.5" stroke="#888" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+</g>
+
+<!-- UNI (unicorn) -->
+<g id="ch-uni">
+  <polygon points="26,1 21,19 31,19" fill="#FFD700"/>
+  <polygon points="26,1 22.5,14 26,17" fill="#FFC107" opacity=".7"/>
+  <ellipse cx="9" cy="20" rx="7" ry="11" fill="#F48FB1" transform="rotate(-20 9 20)"/>
+  <ellipse cx="7" cy="22" rx="5" ry="8.5" fill="#CE93D8" transform="rotate(-20 7 22)"/>
+  <circle cx="26" cy="32" r="19" fill="#fff0f8"/>
+  <circle cx="18.5" cy="28" r="6" fill="#fff"/><circle cx="18.5" cy="29" r="4.2" fill="#CE93D8"/><circle cx="18.5" cy="29" r="2.6" fill="#7B1FA2"/><circle cx="19.8" cy="27.8" r="1.2" fill="#fff"/>
+  <circle cx="33.5" cy="28" r="6" fill="#fff"/><circle cx="33.5" cy="29" r="4.2" fill="#CE93D8"/><circle cx="33.5" cy="29" r="2.6" fill="#7B1FA2"/><circle cx="34.8" cy="27.8" r="1.2" fill="#fff"/>
+  <path d="M14 23.5 Q18 21 20 22.5" stroke="#AB47BC" stroke-width="1.3" fill="none"/>
+  <path d="M32 22.5 Q34 21 38 23.5" stroke="#AB47BC" stroke-width="1.3" fill="none"/>
+  <ellipse cx="26" cy="36" rx="4.5" ry="3" fill="#FFCCBC"/>
+  <path d="M22 38.5 Q26 42 30 38.5" stroke="#d4a090" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <circle cx="13" cy="35" r="4.5" fill="#F48FB1" opacity=".45"/>
+  <circle cx="39" cy="35" r="4.5" fill="#F48FB1" opacity=".45"/>
+</g>
+
+<!-- TIGER -->
+<g id="ch-tiger">
+  <polygon points="9,17 3,2 18,13" fill="#FFA726"/><polygon points="10,16 5,4 17,13" fill="#FFCCBC"/>
+  <polygon points="43,17 49,2 34,13" fill="#FFA726"/><polygon points="42,16 47,4 35,13" fill="#FFCCBC"/>
+  <circle cx="26" cy="30" r="19" fill="#FFA726"/>
+  <path d="M11 21 Q15 16.5 13 12" stroke="#E65100" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <path d="M7 29 Q12 24 10 19" stroke="#E65100" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <path d="M41 21 Q37 16.5 39 12" stroke="#E65100" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <path d="M45 29 Q40 24 42 19" stroke="#E65100" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <ellipse cx="26" cy="36" rx="9.5" ry="7.5" fill="#FFCCBC"/>
+  <ellipse cx="26" cy="32.5" rx="4" ry="3" fill="#333"/>
+  <circle cx="18.5" cy="25" r="5.5" fill="#fff"/><circle cx="18.5" cy="26" r="4" fill="#1B5E20"/><circle cx="19.8" cy="24.8" r="1.4" fill="#fff"/>
+  <circle cx="33.5" cy="25" r="5.5" fill="#fff"/><circle cx="33.5" cy="26" r="4" fill="#1B5E20"/><circle cx="34.8" cy="24.8" r="1.4" fill="#fff"/>
+  <path d="M21 39 Q26 43.5 31 39" stroke="#bf5010" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <line x1="7" y1="34" x2="19" y2="36" stroke="#ccc" stroke-width="1.2"/><line x1="7" y1="37.5" x2="19" y2="37.5" stroke="#ccc" stroke-width="1.2"/>
+  <line x1="45" y1="34" x2="33" y2="36" stroke="#ccc" stroke-width="1.2"/><line x1="45" y1="37.5" x2="33" y2="37.5" stroke="#ccc" stroke-width="1.2"/>
+</g>
+
+</defs>
+</svg>
+
+<div class="wrap">
   <h1 id="title"></h1>
   <p class="subtitle">Use your keyboard and mouse to get started! 🎹🖱️</p>
 
@@ -174,21 +296,14 @@ input[type=text]:focus,textarea:focus{border-color:var(--pink-d);box-shadow:0 0 
     <div class="name-preview" id="name-preview"><span style="color:#ddd;font-family:'Fredoka One',cursive;font-size:2rem;">Start typing...</span></div>
     <input type="text" id="name-input" placeholder="Type your name here..." maxlength="18" autocomplete="off" spellcheck="false">
     <div class="progress-wrap">
-      <div class="progress-label">
-        <span>Keep typing! 🌟</span>
-        <span id="char-count">0 / 18</span>
-      </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="prog-fill" style="width:0%"></div>
-      </div>
-      <div style="text-align:right;margin-top:3px;" id="caterpillar-wrap">
-        <span class="caterpillar" id="caterpillar" style="margin-right:0%">🐛</span>
-      </div>
+      <div class="progress-label"><span>Keep typing! 🌟</span><span id="char-count">0 / 18</span></div>
+      <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+      <div style="text-align:right;margin-top:3px;"><span class="caterpillar" id="caterpillar" style="margin-right:98%">🐛</span></div>
     </div>
   </div>
 
   <!-- SPEED CARD -->
-  <div class="card speed-card" style="animation-delay:.15s">
+  <div class="card" style="animation-delay:.15s">
     <span class="card-label">⚡ Your Typing Superpower!</span>
     <div class="race-track">
       <div class="track-lane">
@@ -200,30 +315,27 @@ input[type=text]:focus,textarea:focus{border-color:var(--pink-d);box-shadow:0 0 
       <span class="speed-badge-icon" id="speed-icon">😴</span>
       <div>
         <span class="speed-badge-text" id="speed-title">Waiting for you...</span>
-        <span class="speed-badge-title" id="speed-sub">Start typing your name!</span>
+        <span class="speed-badge-sub" id="speed-sub">Start typing your name!</span>
       </div>
     </div>
     <div class="stars-row" id="stars-row">
-      <span class="star-item">⭐</span>
-      <span class="star-item">⭐</span>
-      <span class="star-item">⭐</span>
-      <span class="star-item">⭐</span>
-      <span class="star-item">⭐</span>
+      <span class="star-item">⭐</span><span class="star-item">⭐</span><span class="star-item">⭐</span><span class="star-item">⭐</span><span class="star-item">⭐</span>
     </div>
   </div>
 
   <!-- AVATAR CARD -->
   <div class="card" style="animation-delay:.2s">
     <span class="card-label">🎭 Pick your character!</span>
-    <div class="avatar-grid" id="avatar-grid">
-      <button class="av-btn" data-avatar="🐶" onclick="pickAvatar(this)">🐶</button>
-      <button class="av-btn" data-avatar="🐱" onclick="pickAvatar(this)">🐱</button>
-      <button class="av-btn" data-avatar="🦊" onclick="pickAvatar(this)">🦊</button>
-      <button class="av-btn" data-avatar="🐸" onclick="pickAvatar(this)">🐸</button>
-      <button class="av-btn" data-avatar="🦄" onclick="pickAvatar(this)">🦄</button>
-      <button class="av-btn" data-avatar="🐻" onclick="pickAvatar(this)">🐻</button>
-      <button class="av-btn" data-avatar="🐼" onclick="pickAvatar(this)">🐼</button>
-      <button class="av-btn" data-avatar="🐯" onclick="pickAvatar(this)">🐯</button>
+    <div class="avatar-grid">
+      <button class="av-btn" data-char="ch-cat"    data-label="Kitty"  onclick="pickAvatar(this)"><svg viewBox="0 0 52 52"><use href="#ch-cat"/></svg>   <span class="av-name">Kitty</span></button>
+      <button class="av-btn" data-char="ch-dog"    data-label="Buddy"  onclick="pickAvatar(this)"><svg viewBox="0 0 52 52"><use href="#ch-dog"/></svg>   <span class="av-name">Buddy</span></button>
+      <button class="av-btn" data-char="ch-bunny"  data-label="Bun Bun"onclick="pickAvatar(this)"><svg viewBox="0 0 52 52"><use href="#ch-bunny"/></svg> <span class="av-name">Bun Bun</span></button>
+      <button class="av-btn" data-char="ch-frog"   data-label="Hoppy"  onclick="pickAvatar(this)"><svg viewBox="0 0 52 52"><use href="#ch-frog"/></svg>  <span class="av-name">Hoppy</span></button>
+      <button class="av-btn" data-char="ch-bear"   data-label="Teddy"  onclick="pickAvatar(this)"><svg viewBox="0 0 52 52"><use href="#ch-bear"/></svg>  <span class="av-name">Teddy</span></button>
+      <button class="av-btn" data-char="ch-fox"    data-label="Foxy"   onclick="pickAvatar(this)"><svg viewBox="0 0 52 52"><use href="#ch-fox"/></svg>   <span class="av-name">Foxy</span></button>
+      <button class="av-btn" data-char="ch-panda"  data-label="Panda"  onclick="pickAvatar(this)"><svg viewBox="0 0 52 52"><use href="#ch-panda"/></svg> <span class="av-name">Panda</span></button>
+      <button class="av-btn" data-char="ch-uni"    data-label="Uni"    onclick="pickAvatar(this)"><svg viewBox="0 0 52 52"><use href="#ch-uni"/></svg>   <span class="av-name">Uni</span></button>
+      <button class="av-btn" data-char="ch-tiger"  data-label="Tiger"  onclick="pickAvatar(this)"><svg viewBox="0 0 52 52"><use href="#ch-tiger"/></svg> <span class="av-name">Tiger</span></button>
     </div>
   </div>
 
@@ -249,7 +361,9 @@ input[type=text]:focus,textarea:focus{border-color:var(--pink-d);box-shadow:0 0 
   <!-- RESULT -->
   <div id="result">
     <div class="result-inner">
-      <div class="result-avatar" id="res-avatar">🦄</div>
+      <div class="result-avatar-wrap">
+        <svg viewBox="0 0 52 52"><use id="res-char" href="#ch-uni"/></svg>
+      </div>
       <div class="result-name" id="res-name"></div>
       <div class="result-about" id="res-about"></div>
       <div id="res-speed-wrap"></div>
@@ -260,335 +374,138 @@ input[type=text]:focus,textarea:focus{border-color:var(--pink-d);box-shadow:0 0 
       </div>
     </div>
   </div>
-
 </div>
 
 <script>
-// ---- TITLE LETTER BOUNCE ----
-const titleText = "Tell Us About You! 🌟";
-const titleEl = document.getElementById('title');
-titleText.split('').forEach((ch, i) => {
-  const s = document.createElement('span');
-  s.textContent = ch === ' ' ? '\u00A0' : ch;
-  s.style.animationDelay = (i * 0.06) + 's';
-  titleEl.appendChild(s);
-});
+// TITLE
+document.getElementById('title').innerHTML="Tell Us About You! 🌟".split('').map((c,i)=>`<span style="animation-delay:${i*.06}s">${c===' '?'&nbsp;':c}</span>`).join('');
 
-// ---- AUDIO ----
+// AUDIO
 let actx;
-function getActx() {
-  if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
-  if (actx.state === 'suspended') actx.resume();
-  return actx;
-}
-function playTone(freq, type, dur, vol=0.15) {
-  try {
-    const c = getActx();
-    const o = c.createOscillator(), g = c.createGain();
-    o.connect(g); g.connect(c.destination);
-    o.type = type; o.frequency.value = freq;
-    g.gain.setValueAtTime(vol, c.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + dur);
-    o.start(); o.stop(c.currentTime + dur);
-  } catch(e){}
-}
-function playDing() { playTone(660, 'triangle', .25); }
-function playPop() { playTone(400 + Math.random()*300, 'sine', .12); }
-function playWin() {
-  [523,659,784,1047].forEach((f,i) => setTimeout(() => playTone(f,'triangle',.3,.12), i*90));
-}
+function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();return actx;}
+function tone(f,t,d,v=.15){try{const c=getAC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.start();o.stop(c.currentTime+d);}catch(e){}}
+const playDing=()=>tone(660,'triangle',.25);
+const playPop=()=>tone(400+Math.random()*300,'sine',.12);
+const playWin=()=>[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,'triangle',.3,.12),i*90));
 
-// ---- CURSOR ----
-const cur = document.getElementById('cur');
-const trailColors = ['#FF9AA2','#FFE066','#B5EAD7','#C7CEEA','#FFDAC1'];
-let mx=0, my=0;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cur.style.left = mx + 'px';
-  cur.style.top = my + 'px';
-  if (Math.random() > .55) spawnTrail(mx, my);
+// CURSOR
+const cur=document.getElementById('cur');
+const TC=['#FF9AA2','#FFE066','#B5EAD7','#C7CEEA','#FFDAC1'];
+document.addEventListener('mousemove',e=>{
+  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
+  if(Math.random()>.55){const t=document.createElement('div');t.className='trail';const s=6+Math.random()*8;t.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;width:${s}px;height:${s}px;background:${TC[0|Math.random()*TC.length]};`;document.body.appendChild(t);setTimeout(()=>t.remove(),800);}
 });
-function spawnTrail(x, y) {
-  const t = document.createElement('div');
-  t.className = 'trail';
-  const sz = 6 + Math.random()*8;
-  const col = trailColors[Math.floor(Math.random()*trailColors.length)];
-  t.style.cssText = `left:${x}px;top:${y}px;width:${sz}px;height:${sz}px;background:${col};`;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 800);
-}
 
-// ---- CLOUDS ----
-function makeClouds() {
-  const cloudEmojis = ['☁️','🌤️','⛅'];
-  for (let i = 0; i < 4; i++) {
-    const c = document.createElement('div');
-    c.className = 'cloud';
-    c.textContent = cloudEmojis[i % cloudEmojis.length];
-    c.style.top = (5 + Math.random() * 25) + '%';
-    c.style.left = '-80px';
-    c.style.fontSize = (36 + Math.random() * 24) + 'px';
-    const dur = 18 + Math.random() * 18;
-    c.style.animationDuration = dur + 's';
-    c.style.animationDelay = (-Math.random() * dur) + 's';
-    document.body.appendChild(c);
-  }
-}
-makeClouds();
+// CLOUDS
+['☁️','🌤️','⛅','☁️'].forEach(em=>{
+  const c=document.createElement('div');c.className='cloud';c.textContent=em;
+  const d=18+Math.random()*18;
+  c.style.cssText=`top:${5+Math.random()*25}%;left:-80px;font-size:${36+Math.random()*24}px;animation-duration:${d}s;animation-delay:${-Math.random()*d}s;`;
+  document.body.appendChild(c);
+});
 
-// ---- BUBBLES ----
-const popWords = ["Amazing!","You're a Star!","Wow!","Great Job!","Super!","Brilliant!","Yay!","🎉 Nice!"];
-function makeBubble() {
-  const b = document.createElement('div');
-  b.className = 'bubble';
-  const sz = 36 + Math.random() * 44;
-  b.style.width = sz + 'px';
-  b.style.height = sz + 'px';
-  b.style.left = (Math.random() * 96) + 'vw';
-  b.style.bottom = '-80px';
-  const dur = 7 + Math.random() * 6;
-  b.style.animationDuration = dur + 's';
-  const emojis = ['✨','⭐','💖','🎈','🍭','🌸','🌈','💫'];
-  b.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-  b.style.fontSize = (sz * 0.45) + 'px';
-  b.addEventListener('click', e => {
+// BUBBLES
+const PW=["Amazing!","You're a Star!","Wow!","Great Job!","Super!","Brilliant!","Yay!","🎉 Nice!"];
+function mkBubble(){
+  const b=document.createElement('div');b.className='bubble';
+  const s=36+Math.random()*44,d=7+Math.random()*6;
+  b.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*96}vw;bottom:-80px;font-size:${s*.45}px;animation-duration:${d}s;`;
+  b.textContent=['✨','⭐','💖','🎈','🍭','🌸','🌈','💫'][0|Math.random()*8];
+  b.addEventListener('click',e=>{
     playPop();
-    const w = document.createElement('div');
-    w.className = 'pop-word';
-    const col = trailColors[Math.floor(Math.random()*trailColors.length)];
-    w.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;color:${col};`;
-    w.textContent = popWords[Math.floor(Math.random()*popWords.length)];
-    document.body.appendChild(w);
-    setTimeout(() => w.remove(), 1200);
-    b.remove();
-    burst(e.clientX, e.clientY, 18);
+    const w=document.createElement('div');w.className='pop-word';
+    w.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;color:${TC[0|Math.random()*TC.length]};`;
+    w.textContent=PW[0|Math.random()*PW.length];
+    document.body.appendChild(w);setTimeout(()=>w.remove(),1200);
+    b.remove();burst(e.clientX,e.clientY,18);
   });
   document.getElementById('bubble-container').appendChild(b);
-  setTimeout(() => b.remove && b.isConnected && b.remove(), dur * 1000 + 200);
+  setTimeout(()=>b.isConnected&&b.remove(),d*1000+200);
 }
-setInterval(makeBubble, 1200);
+setInterval(mkBubble,1200);
 
-// ---- CONFETTI ----
-const cnv = document.getElementById('cnv');
-const ctx2 = cnv.getContext('2d');
-let parts = [];
-function resize() { cnv.width = innerWidth; cnv.height = innerHeight; }
-window.addEventListener('resize', resize); resize();
+// CONFETTI
+const cnv=document.getElementById('cnv'),cx=cnv.getContext('2d');
+let pts=[];
+const rsz=()=>{cnv.width=innerWidth;cnv.height=innerHeight;};
+window.addEventListener('resize',rsz);rsz();
+function burst(x,y,n){for(let i=0;i<n;i++){const a=(Math.PI*2/n)*i+Math.random()*.5,sp=3+Math.random()*6;pts.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-Math.random()*4,color:`hsl(${Math.random()*360},100%,60%)`,sz:3+Math.random()*4,life:1,dec:.02+Math.random()*.02,sh:Math.random()>.5?'c':'r',rot:Math.random()*Math.PI*2,rs:(Math.random()-.5)*.2});}}
+function rain(){let t=0;const iv=setInterval(()=>{burst(Math.random()*cnv.width,-10,10);if(++t>30)clearInterval(iv);},80);}
+(function loop(){cx.clearRect(0,0,cnv.width,cnv.height);pts=pts.filter(p=>p.life>0);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.18;p.vx*=.99;p.life-=p.dec;p.rot+=p.rs;cx.globalAlpha=p.life;cx.fillStyle=p.color;cx.save();cx.translate(p.x,p.y);cx.rotate(p.rot);p.sh==='r'?cx.fillRect(-p.sz/2,-p.sz/2,p.sz,p.sz):(cx.beginPath(),cx.arc(0,0,p.sz/2,0,Math.PI*2),cx.fill());cx.restore();});cx.globalAlpha=1;requestAnimationFrame(loop);})();
 
-function burst(x, y, count) {
-  for (let i = 0; i < count; i++) {
-    const angle = (Math.PI * 2 / count) * i + Math.random() * .5;
-    const spd = 3 + Math.random() * 6;
-    parts.push({
-      x, y,
-      vx: Math.cos(angle) * spd,
-      vy: Math.sin(angle) * spd - Math.random() * 4,
-      color: `hsl(${Math.random()*360},100%,60%)`,
-      size: 3 + Math.random() * 4,
-      life: 1, decay: .02 + Math.random() * .02,
-      shape: Math.random() > .5 ? 'circle' : 'rect',
-      rot: Math.random() * Math.PI * 2,
-      rspd: (Math.random() - .5) * .2
-    });
-  }
-}
-
-function rainConfetti() {
-  let t = 0;
-  const iv = setInterval(() => {
-    burst(Math.random() * cnv.width, -10, 10);
-    t++;
-    if (t > 30) clearInterval(iv);
-  }, 80);
-}
-
-(function loop() {
-  ctx2.clearRect(0, 0, cnv.width, cnv.height);
-  parts = parts.filter(p => p.life > 0);
-  parts.forEach(p => {
-    p.x += p.vx; p.y += p.vy; p.vy += .18;
-    p.vx *= .99; p.life -= p.decay; p.rot += p.rspd;
-    ctx2.globalAlpha = p.life;
-    ctx2.fillStyle = p.color;
-    ctx2.save();
-    ctx2.translate(p.x, p.y);
-    ctx2.rotate(p.rot);
-    if (p.shape === 'rect') ctx2.fillRect(-p.size/2, -p.size/2, p.size, p.size);
-    else { ctx2.beginPath(); ctx2.arc(0,0,p.size/2,0,Math.PI*2); ctx2.fill(); }
-    ctx2.restore();
-  });
-  ctx2.globalAlpha = 1;
-  requestAnimationFrame(loop);
-})();
-
-// ---- NAME INPUT ----
-const nameInput = document.getElementById('name-input');
-const namePrev = document.getElementById('name-preview');
-const progFill = document.getElementById('prog-fill');
-const charCount = document.getElementById('char-count');
-const caterpillar = document.getElementById('caterpillar');
-const MAX = 18;
-const letterColors = ['#FF9AA2','#FFDAC1','#FFE066','#B5EAD7','#C7CEEA','#FFB7B2'];
-
-nameInput.addEventListener('input', e => {
-  const val = e.target.value;
-  namePrev.innerHTML = '';
-  if (val.length === 0) {
-    namePrev.innerHTML = '<span style="color:#ddd;font-family:\'Fredoka One\',cursive;font-size:2rem;">Start typing...</span>';
-  } else {
-    val.split('').forEach((ch, i) => {
-      const s = document.createElement('span');
-      s.textContent = ch === ' ' ? '\u00A0' : ch;
-      s.className = 'char-pop';
-      s.style.color = letterColors[i % letterColors.length];
-      s.style.animationDelay = (i * 0.04) + 's';
-      namePrev.appendChild(s);
-    });
-  }
-  const pct = (val.length / MAX) * 100;
-  progFill.style.width = pct + '%';
-  charCount.textContent = val.length + ' / ' + MAX;
-  caterpillar.style.marginRight = Math.max(0, 98 - pct) + '%';
-  if (e.data) {
-    keyTimes.push(Date.now());
-    playDing();
-    const r = nameInput.getBoundingClientRect();
-    burst(r.left + r.width / 2, r.top, 8);
-    updateSpeedUI(calcLPS());
-  }
-  if (val.length === 0) { lastTier = null; updateSpeedUI(0); }
+// NAME INPUT
+const ni=document.getElementById('name-input'),np=document.getElementById('name-preview');
+const pf=document.getElementById('prog-fill'),cc=document.getElementById('char-count');
+const cat=document.getElementById('caterpillar'),MAX=18;
+const LC=['#FF9AA2','#FFDAC1','#FFE066','#B5EAD7','#C7CEEA','#FFB7B2'];
+ni.addEventListener('input',e=>{
+  const v=e.target.value;
+  np.innerHTML='';
+  if(!v.length){np.innerHTML='<span style="color:#ddd;font-family:\'Fredoka One\',cursive;font-size:2rem;">Start typing...</span>';}
+  else v.split('').forEach((c,i)=>{const s=document.createElement('span');s.textContent=c===' '?'\u00A0':c;s.className='char-pop';s.style.color=LC[i%LC.length];s.style.animationDelay=(i*.04)+'s';np.appendChild(s);});
+  const p=(v.length/MAX)*100;pf.style.width=p+'%';cc.textContent=v.length+' / '+MAX;cat.style.marginRight=Math.max(0,98-p)+'%';
+  if(e.data){kt.push(Date.now());playDing();const r=ni.getBoundingClientRect();burst(r.left+r.width/2,r.top,8);updSpeed(calcLPS());}
+  if(!v.length){lt=null;updSpeed(0);}
 });
 
-// ---- TYPING SPEED ----
-const TIERS = [
-  { minLPS: 0,   icon:'😴', title:'Just Warming Up!',   sub:'Keep going, you can do it!',   color:'#f0f0f0', textColor:'#aaa',   stars:1, runner:'🐢', runnerPct: 5  },
-  { minLPS: 0.8, icon:'🐌', title:'Careful Explorer',   sub:'Nice and steady wins the race!',color:'#E8F8E8', textColor:'#6abf6a',stars:2, runner:'🐌', runnerPct: 20 },
-  { minLPS: 1.8, icon:'🐇', title:'Speedy Bunny!',      sub:'Hop hop hop, so fast!',         color:'#FFF8E0', textColor:'#e6a800',stars:3, runner:'🐇', runnerPct: 45 },
-  { minLPS: 3.0, icon:'🚀', title:'Rocket Fingers!',    sub:'Woooosh! You\'re flying!',      color:'#E8F0FF', textColor:'#5577dd',stars:4, runner:'🚀', runnerPct: 68 },
-  { minLPS: 4.5, icon:'⚡', title:'Lightning Typist!!', sub:'You\'re a keyboard LEGEND! 🏆', color:'#FFF0FF', textColor:'#cc44cc',stars:5, runner:'⚡', runnerPct: 92 },
+// SPEED
+const TIERS=[
+  {minLPS:0,  icon:'😴',title:'Just Warming Up!',  sub:'Keep going, you can do it!',   color:'#f0f0f0',tc:'#aaa',   stars:1,run:'🐢',pct:5},
+  {minLPS:.8, icon:'🐌',title:'Careful Explorer',  sub:'Nice and steady wins the race!',color:'#E8F8E8',tc:'#6abf6a',stars:2,run:'🐌',pct:20},
+  {minLPS:1.8,icon:'🐇',title:'Speedy Bunny!',     sub:'Hop hop hop, so fast!',         color:'#FFF8E0',tc:'#e6a800',stars:3,run:'🐇',pct:45},
+  {minLPS:3.0,icon:'🚀',title:'Rocket Fingers!',   sub:"Woooosh! You're flying!",       color:'#E8F0FF',tc:'#5577dd',stars:4,run:'🚀',pct:68},
+  {minLPS:4.5,icon:'⚡',title:'Lightning Typist!!',sub:"You're a keyboard LEGEND! 🏆",  color:'#FFF0FF',tc:'#cc44cc',stars:5,run:'⚡',pct:92},
 ];
-
-let keyTimes = [];
-let lastTier = null;
-
-function calcLPS() {
-  const now = Date.now();
-  keyTimes = keyTimes.filter(t => now - t < 3000);
-  if (keyTimes.length < 2) return 0;
-  const span = (keyTimes[keyTimes.length-1] - keyTimes[0]) / 1000;
-  return span > 0 ? (keyTimes.length - 1) / span : 0;
+let kt=[],lt=null;
+function calcLPS(){const now=Date.now();kt=kt.filter(t=>now-t<3000);if(kt.length<2)return 0;const sp=(kt[kt.length-1]-kt[0])/1000;return sp>0?(kt.length-1)/sp:0;}
+function getTier(lps){let t=TIERS[0];for(const x of TIERS)if(lps>=x.minLPS)t=x;return t;}
+function updSpeed(lps){
+  const tier=getTier(lps);if(tier===lt)return;
+  const prev=lt;lt=tier;
+  document.getElementById('track-runner').textContent=tier.run;
+  document.getElementById('track-runner').style.left=tier.pct+'%';
+  const bd=document.getElementById('speed-badge');bd.style.background=tier.color;
+  document.getElementById('speed-icon').textContent=tier.icon;
+  const tt=document.getElementById('speed-title');tt.textContent=tier.title;tt.style.color=tier.tc;
+  document.getElementById('speed-sub').textContent=tier.sub;
+  const row=document.getElementById('stars-row');row.innerHTML='';
+  for(let i=0;i<5;i++){const s=document.createElement('span');s.className='star-item';s.textContent=i<tier.stars?'⭐':'✩';s.style.opacity=i<tier.stars?'1':'.25';if(i<tier.stars){s.classList.add('star-lit');s.style.animationDelay=(i*.08)+'s';}row.appendChild(s);}
+  if(tier.stars>(prev?.stars||0)){tone(880,'triangle',.2,.1);const r=bd.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,16);}
 }
 
-function getTier(lps) {
-  let t = TIERS[0];
-  for (const tier of TIERS) { if (lps >= tier.minLPS) t = tier; }
-  return t;
+// AVATAR
+let sc='ch-uni';
+function pickAvatar(btn){
+  document.querySelectorAll('.av-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');sc=btn.dataset.char;playPop();
+  const r=btn.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,16);
 }
 
-function updateSpeedUI(lps) {
-  const tier = getTier(lps);
-  if (tier === lastTier) return;
-  lastTier = tier;
+// EMOJI
+function addEmoji(t){const ta=document.getElementById('about-input');ta.value=ta.value.length?ta.value.trimEnd()+', '+t+' ':'I love '+t+' ';ta.focus();playPop();}
 
-  const runner = document.getElementById('track-runner');
-  runner.textContent = tier.runner;
-  runner.style.left = tier.runnerPct + '%';
-
-  const badge = document.getElementById('speed-badge');
-  badge.style.background = tier.color;
-  document.getElementById('speed-icon').textContent = tier.icon;
-  document.getElementById('speed-title').textContent = tier.title;
-  document.getElementById('speed-title').style.color = tier.textColor;
-  document.getElementById('speed-sub').textContent = tier.sub;
-
-  const starsRow = document.getElementById('stars-row');
-  starsRow.innerHTML = '';
-  for (let i = 0; i < 5; i++) {
-    const s = document.createElement('span');
-    s.className = 'star-item';
-    s.textContent = i < tier.stars ? '⭐' : '✩';
-    s.style.opacity = i < tier.stars ? '1' : '0.25';
-    if (i < tier.stars) {
-      s.classList.add('star-lit');
-      s.style.animationDelay = (i * 0.08) + 's';
-    }
-    starsRow.appendChild(s);
-  }
-
-  if (tier.stars > (lastTier?.stars || 0)) {
-    playTone(880, 'triangle', .2, .1);
-    const r = document.getElementById('speed-badge').getBoundingClientRect();
-    burst(r.left + r.width/2, r.top + r.height/2, 16);
-  }
+// MAKE CARD
+function createCard(){
+  const name=ni.value.trim();
+  if(!name){ni.focus();ni.style.borderColor='#FF6F61';setTimeout(()=>ni.style.borderColor='',600);burst(ni.getBoundingClientRect().left+100,ni.getBoundingClientRect().top,10);return;}
+  const about=document.getElementById('about-input').value.trim();
+  const ft=lt||TIERS[0];
+  document.getElementById('res-char').setAttribute('href','#'+sc);
+  document.getElementById('res-name').textContent=name;
+  document.getElementById('res-about').textContent=about||'Is totally wonderful! 🌟';
+  document.getElementById('res-speed-wrap').innerHTML=`<div class="res-speed-badge" style="background:${ft.color};color:${ft.tc};">${ft.icon} ${ft.title}</div>`;
+  const r=document.getElementById('result');r.style.display='block';r.style.animation='none';void r.offsetWidth;r.style.animation='';
+  playWin();rain();setTimeout(()=>r.scrollIntoView({behavior:'smooth',block:'center'}),100);
 }
 
-
-let selectedAvatar = '🦄';
-function pickAvatar(btn) {
-  document.querySelectorAll('.av-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  selectedAvatar = btn.dataset.avatar;
-  playPop();
-  burst(btn.getBoundingClientRect().left + 28, btn.getBoundingClientRect().top + 28, 14);
-}
-
-// ---- ABOUT / EMOJI ----
-function addEmoji(text) {
-  const ta = document.getElementById('about-input');
-  if (ta.value.length === 0) {
-    ta.value = 'I love ' + text + ' ';
-  } else {
-    ta.value = ta.value.trimEnd() + ', ' + text + ' ';
-  }
-  ta.focus();
-  playPop();
-}
-
-// ---- MAKE CARD ----
-function createCard() {
-  const name = nameInput.value.trim();
-  if (!name) {
-    nameInput.focus();
-    nameInput.style.borderColor = '#FF6F61';
-    nameInput.style.animation = 'none';
-    setTimeout(() => { nameInput.style.borderColor = ''; nameInput.style.animation = ''; }, 600);
-    burst(nameInput.getBoundingClientRect().left + 100, nameInput.getBoundingClientRect().top, 10);
-    return;
-  }
-  const about = document.getElementById('about-input').value.trim();
-  const finalTier = lastTier || TIERS[0];
-  document.getElementById('res-avatar').textContent = selectedAvatar;
-  document.getElementById('res-name').textContent = name;
-  document.getElementById('res-about').textContent = about || 'Is totally wonderful! 🌟';
-  const speedWrap = document.getElementById('res-speed-wrap');
-  speedWrap.innerHTML = `<div class="res-speed-badge" style="background:${finalTier.color};color:${finalTier.textColor};">${finalTier.icon} ${finalTier.title}</div>`;
-  const r = document.getElementById('result');
-  r.style.display = 'block';
-  r.style.animation = 'none';
-  void r.offsetWidth;
-  r.style.animation = '';
-  playWin();
-  rainConfetti();
-  setTimeout(() => r.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
-}
-
-function tryAgain() {
-  nameInput.value = '';
-  namePrev.innerHTML = '<span style="color:#ddd;font-family:\'Fredoka One\',cursive;font-size:2rem;">Start typing...</span>';
-  document.getElementById('about-input').value = '';
-  progFill.style.width = '0%';
-  charCount.textContent = '0 / 18';
-  caterpillar.style.marginRight = '98%';
-  document.querySelectorAll('.av-btn').forEach(b => b.classList.remove('selected'));
-  selectedAvatar = '🦄';
-  document.getElementById('result').style.display = 'none';
-  keyTimes = [];
-  lastTier = null;
-  updateSpeedUI(0);
-  document.getElementById('track-runner').style.left = '0%';
-  document.getElementById('track-runner').textContent = '🐢';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  playPop();
+// TRY AGAIN
+function tryAgain(){
+  ni.value='';np.innerHTML='<span style="color:#ddd;font-family:\'Fredoka One\',cursive;font-size:2rem;">Start typing...</span>';
+  document.getElementById('about-input').value='';pf.style.width='0%';cc.textContent='0 / 18';cat.style.marginRight='98%';
+  document.querySelectorAll('.av-btn').forEach(b=>b.classList.remove('selected'));sc='ch-uni';
+  document.getElementById('result').style.display='none';
+  kt=[];lt=null;updSpeed(0);document.getElementById('track-runner').style.left='0%';document.getElementById('track-runner').textContent='🐢';
+  window.scrollTo({top:0,behavior:'smooth'});playPop();
 }
 </script>
 </body>
