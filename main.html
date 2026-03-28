@@ -1,1 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Magical Storybook ✨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --c-pink: #FFB7B2;
+            --c-pink-dark: #FF9AA2;
+            --c-blue: #B5EAD7;
+            --c-blue-dark: #A0E8AF;
+            --c-yellow: #FFFFD1;
+            --c-purple: #E2F0CB;
+            --c-sky: #C7CEEA;
+            --c-text: #5D576B;
+            --c-white: #ffffff;
+            --shadow: 0 8px 0 rgba(0,0,0,0.15);
+            --shadow-hover: 0 4px 0 rgba(0,0,0,0.15);
+        }
 
+        * {
+            box-sizing: border-box;
+            cursor: none; /* Hide default cursor */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Baloo 2', cursive;
+            background: linear-gradient(to bottom, #87CEEB 0%, #E0F7FA 50%, #98FB98 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--c-text);
+            position: relative;
+        }
+
+        /* --- Custom Cursor --- */
+        #cursor {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FFD700"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>') no-repeat center center;
+            background-size: contain;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            animation: fadeTrail 1s forwards;
+            box-shadow: 0 0 10px gold;
+        }
+
+        @keyframes fadeTrail {
+            to { opacity: 0; transform: scale(0); }
+        }
+
+        /* --- Background Elements --- */
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            opacity: 0.8;
+            animation: floatCloud linear infinite;
+            z-index: 1;
+        }
+        
+        .cloud::after, .cloud::before {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .sun {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            background: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 40px #FFD700;
+            animation: spinSun 20s linear infinite;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        @keyframes floatCloud {
+            from { transform: translateX(-200px); }
+            to { transform: translateX(110vw); }
+        }
+        @keyframes spinSun {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- Main Container --- */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3.5rem;
+            color: #FF6F61;
+            text-shadow: 3px 3px 0px white, 6px 6px 0px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+            animation: bounceIn 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        /* --- Input Sections --- */
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 5px solid white;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .label {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #888;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Name Input Magic */
+        .name-preview {
+            min-height: 60px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 3rem;
+            color: #FF9AA2;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .char-pop {
+            display: inline-block;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.5rem;
+            font-family: 'Baloo 2', cursive;
+            border: 4px solid var(--c-sky);
+            border-radius: 20px;
+            outline: none;
+            background: #F0F8FF;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: var(--c-pink-dark);
+            box-shadow: 0 0 15px var(--c-pink);
+            transform: scale(1.02);
+        }
+
+        /* Emoji Buttons */
+        .emoji-grid {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .emoji-btn {
+            font-size: 2rem;
+            background: white;
+            border: 3px solid #eee;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .emoji-btn:hover {
+            transform: scale(1.2) rotate(10deg);
+            background: var(--c-yellow);
+            border-color: orange;
+        }
+
+        /* --- Action Button --- */
+        .magic-btn {
+            background: linear-gradient(to bottom, #FF9AA2, #FF6F61);
+            color: white;
+            font-family: 'Fredoka One', cursive;
+            font-size: 2rem;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 10px 0 #D65A50, 0 10px 20px rgba(0,0,0,0.2);
+            transition: all 0.1s;
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .magic-btn:hover {
+            transform: translateY(2px);
+            box-shadow: 0 8px 0 #D65A50, 0 8px 10px rgba(0,0,0,0.2);
+        }
+
+        .magic-btn:active {
+            transform: translateY(10px);
+            box-shadow: 0 0 0 #D65A50;
+        }
+
+        /* --- Magic Result Card --- */
+        #result-area {
+            display: none; /* Hidden initially */
+            margin-top: 50px;
+            animation: zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .magic-card-inner {
+            background: white;
+            border: 8px dashed var(--c-blue-dark);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            background-image: radial-gradient(#E0F7FA 20%, transparent 20%), radial-gradient(#E0F7FA 20%, transparent 20%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+
+        .magic-card-inner h2 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 4rem;
+            margin: 0;
+            background: linear-gradient(45deg, #FF9AA2, #FFB7B2, #FFDAC1, #E2F0CB, #B5EAD7, #C7CEEA);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shimmer 3s linear infinite;
+        }
+
+        .magic-card-inner p {
+            font-size: 2rem;
+            color: #555;
+            margin-top: 20px;
+        }
+
+        .print-btn {
+            background: var(--c-sky);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-family: 'Baloo 2', cursive;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            box-shadow: 0 5px 0 #99B;
+        }
+        
+        .print-btn:hover { transform: scale(1.05); }
+
+        /* --- Floating Bubbles --- */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            animation: floatUp linear infinite;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: none; /* Custom cursor handles this */
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) scale(0.8); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        /* --- Animations --- */
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0); }
+            70% { transform: scale(1.3); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes zoomIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        /* --- Confetti Canvas --- */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* --- Decorative Animals --- */
+        .animal {
+            position: absolute;
+            font-size: 4rem;
+            z-index: 5;
+            transition: transform 0.3s;
+        }
+        .animal:hover { transform: scale(1.2) rotate(10deg); }
+        .animal-1 { bottom: 20px; left: 20px; animation: wiggle 2s infinite; }
+        .animal-2 { bottom: 20px; right: 20px; animation: wiggle 3s infinite; }
+
+        /* --- Print Styles --- */
+        @media print {
+            body { background: white; }
+            .container > *:not(#result-area) { display: none; }
+            #result-area { display: block; position: absolute; top: 0; left: 0; width: 100%; }
+            .magic-card-inner { border: 2px solid #000; }
+            .print-btn { display: none; }
+            .animal { display: none; }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            .magic-card-inner h2 { font-size: 2.5rem; }
+            .animal { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div id="cursor"></div>
+
+    <!-- Background Elements -->
+    <div class="sun">😊</div>
+    <canvas id="confetti-canvas"></canvas>
+    <div id="bubble-container"></div>
+
+    <!-- Decorative Animals -->
+    <div class="animal animal-1">🐰</div>
+    <div class="animal animal-2">🐱</div>
+
+    <div class="container">
+        <h1>Tell Us About You! 🌟</h1>
+
+        <!-- Name Section -->
+        <div class="card">
+            <label class="label">What is your name?</label>
+            <div class="name-preview" id="name-preview"></div>
+            <input type="text" id="name-input" placeholder="Type your name here..." maxlength="20" autocomplete="off">
+        </div>
+
+        <!-- About Me Section -->
+        <div class="card">
+            <label class="label">What do you love?</label>
+            <textarea id="about-input" rows="3" placeholder="I love... (e.g., playing soccer, eating pizza)"></textarea>
+            
+            <div class="emoji-grid">
+                <button class="emoji-btn" onclick="addText('🐶')">🐶</button>
+                <button class="emoji-btn" onclick="addText('🍕')">🍕</button>
+                <button class="emoji-btn" onclick="addText('🎮')">🎮</button>
+                <button class="emoji-btn" onclick="addText('🌈')">🌈</button>
+                <button class="emoji-btn" onclick="addText('🦄')">🦄</button>
+                <button class="emoji-btn" onclick="addText('⚽')">⚽</button>
+            </div>
+        </div>
+
+        <button class="magic-btn" onclick="createMagicCard()">Make My Magic Card! ✨</button>
+
+        <!-- Result Section -->
+        <div id="result-area">
+            <div class="magic-card-inner">
+                <h2 id="result-name"></h2>
+                <p id="result-about"></p>
+                <div style="font-size: 3rem; margin-top: 20px;">🌟🎉🎈</div>
+                <button class="print-btn" onclick="window.print()">Print My Card 🖨️</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Audio System (Web Audio API) ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            if (type === 'pop') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400 + Math.random() * 200, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.1);
+            } else if (type === 'ding') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+                gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.5);
+            } else if (type === 'win') {
+                // Simple arpeggio
+                [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.frequency.value = freq;
+                    g.gain.setValueAtTime(0.1, audioCtx.currentTime + i*0.1);
+                    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i*0.1 + 0.3);
+                    o.start(audioCtx.currentTime + i*0.1);
+                    o.stop(audioCtx.currentTime + i*0.1 + 0.3);
+                });
+            }
+        }
+
+        // --- Custom Cursor Logic ---
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            // Create trail
+            if(Math.random() > 0.5) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = e.clientX + 'px';
+                trail.style.top = e.clientY + 'px';
+                document.body.appendChild(trail);
+                setTimeout(() => trail.remove(), 1000);
+            }
+        });
+
+        // --- Name Input Animation ---
+        const nameInput = document.getElementById('name-input');
+        const namePreview = document.getElementById('name-preview');
+
+        nameInput.addEventListener('input', (e) => {
+            const val = e.target.value;
+            namePreview.innerHTML = '';
+            
+            val.split('').forEach((char, index) => {
+                const span = document.createElement('span');
+                span.textContent = char === ' ' ? '\u00A0' : char;
+                span.className = 'char-pop';
+                span.style.animationDelay = `${index * 0.05}s`;
+                // Random colors for letters
+                const colors = ['#FF9AA2', '#FFB7B2', '#FFDAC1', '#E2F0CB', '#B5EAD7', '#C7CEEA'];
+                span.style.color = colors[index % colors.length];
+                namePreview.appendChild(span);
+            });
+
+            // Keyboard confetti effect
+            if(e.data) {
+                createConfettiBurst(e.target.getBoundingClientRect().left + e.target.offsetWidth/2, e.target.getBoundingClientRect().top);
+                playSound('ding');
+            }
+        });
+
+        // --- About Me Logic ---
+        function addText(emoji) {
+            const textarea = document.getElementById('about-input');
+            textarea.value += emoji + ' ';
+            textarea.focus();
+            playSound('pop');
+        }
+
+        // --- Floating Bubbles ---
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            const size = Math.random() * 40 + 30;
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = `${Math.random() * 100}vw`;
+            bubble.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            
+            const emojis = ['✨', '⭐', '💖', '🎈', '🍭'];
+            bubble.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            bubble.addEventListener('click', () => {
+                playSound('pop');
+                bubble.style.transform = 'scale(1.5)';
+                bubble.style.opacity = '0';
+                setTimeout(() => bubble.remove(), 200);
+                // Show encouraging word
+                showFloatingWord(bubble.style.left, bubble.style.top);
+            });
+
+            document.getElementById('bubble-container').appendChild(bubble);
+            setTimeout(() => {
+                if(document.body.contains(bubble)) bubble.remove();
+            }, 10000);
+        }
+
+        setInterval(createBubble, 800);
+
+        function showFloatingWord(x, y) {
+            const words = ["Amazing!", "You're a Star!", "Wow!", "Great Job!", "Super!"];
+            const word = document.createElement('div');
+            word.textContent = words[Math.floor(Math.random() * words.length)];
+            word.style.position = 'fixed';
+            word.style.left = x;
+            word.style.top = y;
+            word.style.color = '#FF6F61';
+            word.style.fontWeight = 'bold';
+            word.style.fontSize = '2rem';
+            word.style.fontFamily = 'Fredoka One';
+            word.style.pointerEvents = 'none';
+            word.style.zIndex = 999;
+            word.style.transition = 'all 1s';
+            document.body.appendChild(word);
+            
+            setTimeout(() => {
+                word.style.top = (parseInt(y) - 50) + 'px';
+                word.style.opacity = 0;
+            }, 50);
+            setTimeout(() => word.remove(), 1000);
+        }
+
+        // --- Confetti System (Canvas) ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function createConfettiBurst(x, y) {
+            for(let i=0; i<20; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 10,
+                    vy: (Math.random() - 1) * 10,
+                    color: `hsl(${Math.random()*360}, 100%, 50%)`,
+                    size: Math.random() * 5 + 2,
+                    life: 100
+                });
+            }
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, index) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.2; // Gravity
+                p.life--;
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                if(p.life <= 0) particles.splice(index, 1);
+            });
+            requestAnimationFrame(animateConfetti);
+        }
+        animateConfetti();
+
+        // --- Magic Card Creation ---
+        function createMagicCard() {
+            const name = nameInput.value;
+            const about = document.getElementById('about-input').value;
+
+            if(!name) {
+                alert("Please type your name first! ✨");
+                return;
+            }
+
+            // Celebration
+            playSound('win');
+            
+            // Full screen confetti for 3 seconds
+            let celebrationInterval = setInterval(() => {
+                createConfettiBurst(Math.random() * canvas.width, Math.random() * canvas.height/2);
+            }, 100);
+
+            setTimeout(() => clearInterval(celebrationInterval), 3000);
+
+            // Populate Card
+            document.getElementById('result-name').textContent = name;
+            document.getElementById('result-about').textContent = about || "Is wonderful!";
+            
+            // Show Card
+            const resultArea = document.getElementById('result-area');
+            resultArea.style.display = 'block';
+            resultArea.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- Initial Clouds ---
+        function createClouds() {
+            for(let i=0; i<5; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud';
+                const w = Math.random() * 100 + 100;
+                cloud.style.width = w + 'px';
+                cloud.style.height = (w * 0.6) + 'px';
+                cloud.style.top = Math.random() * 30 + '%';
+                cloud.style.left = -200 + 'px'; // Start off screen
+                cloud.style.animationDuration = Math.random() * 20 + 20 + 's';
+                cloud.style.animationDelay = Math.random() * 5 + 's';
+                
+                // Pseudo elements handled by CSS, just need positioning
+                document.body.appendChild(cloud);
+            }
+        }
+        createClouds();
+
+    </script>
+</body>
+</html>
